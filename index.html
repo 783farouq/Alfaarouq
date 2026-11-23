@@ -596,6 +596,55 @@ nav {
   color:rgba(244,240,230,.4);
 }
 
+/* ─── CERTIFICATES ───────────────────────── */
+#certificates { background:var(--cream); }
+
+.cert-list {
+  margin-top:80px;
+  border-top:1px solid var(--rule);
+}
+.cert-row {
+  display:grid;
+  grid-template-columns:1.5fr 1fr;
+  gap:48px;
+  padding:48px 0;
+  border-bottom:1px solid var(--rule);
+  align-items:start;
+}
+.cert-kind {
+  font-family:var(--mono); font-size:8px; letter-spacing:.25em;
+  text-transform:uppercase; color:var(--gold); margin-bottom:20px;
+}
+.cert-title {
+  font-family:var(--serif); font-size:clamp(24px,2.6vw,38px);
+  font-weight:300; line-height:1.2; color:var(--ink); margin-bottom:12px;
+}
+.cert-issuer {
+  font-family:var(--mono); font-size:9px; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--mid);
+}
+.cert-meta { display:flex; flex-direction:column; gap:14px; }
+.cert-meta-item {
+  display:flex; justify-content:space-between; align-items:baseline; gap:16px;
+  padding-bottom:14px; border-bottom:1px solid var(--rule);
+}
+.cert-meta-label {
+  font-family:var(--mono); font-size:8px; letter-spacing:.2em;
+  text-transform:uppercase; color:var(--mid);
+}
+.cert-meta-value {
+  font-family:var(--serif); font-size:17px; color:var(--ink); text-align:right;
+}
+.cert-meta-value.is-id { font-family:var(--mono); font-size:11px; letter-spacing:.08em; }
+.cert-verify {
+  align-self:flex-start; margin-top:6px;
+  font-family:var(--mono); font-size:9px; letter-spacing:.2em;
+  text-transform:uppercase; color:var(--ink); text-decoration:none;
+  border-bottom:1px solid var(--ink); padding-bottom:4px;
+  transition:color .3s, border-color .3s;
+}
+.cert-verify:hover { color:var(--electric); border-color:var(--electric); }
+
 /* ─── ECOSYSTEM ──────────────────────────── */
 #ecosystem { background:var(--cream); border-top:1px solid var(--rule); }
 
@@ -763,6 +812,7 @@ footer {
   .curiosity-grid { grid-template-columns:1fr; gap:56px; }
   .domains-grid { grid-template-columns:1fr; }
   .learning-grid { grid-template-columns:1fr; }
+  .cert-row { grid-template-columns:1fr; gap:32px; }
   .eco-grid { grid-template-columns:1fr 1fr; }
   .eco-col { border-right:none; border-bottom:1px solid var(--rule); }
   .contact-grid { grid-template-columns:1fr; gap:48px; }
@@ -1106,6 +1156,29 @@ footer {
         <div class="learn-title">Agentic AI Systems</div>
         <div class="learn-src">Great Learning & Substack</div>
         <p class="learn-body">How AI moves from reactive chatbots to proactive agents that pursue multi-step goals and reshape how enterprises operate.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CERTIFICATES -->
+<section class="section" id="certificates">
+  <div class="section-inner">
+    <div class="sec-label reveal">Credentials</div>
+    <h2 class="sec-title reveal reveal-d1">Learning,<br><em>on record.</em></h2>
+    <div class="cert-list">
+      <div class="cert-row reveal">
+        <div class="cert-main">
+          <div class="cert-kind">Certificate of Completion</div>
+          <div class="cert-title">Office Skills Starter: Email, Calendar and Excel</div>
+          <div class="cert-issuer">Ucademy Online Campus · Free short course</div>
+        </div>
+        <div class="cert-meta">
+          <div class="cert-meta-item"><span class="cert-meta-label">Issued</span><span class="cert-meta-value">November 22, 2026</span></div>
+          <div class="cert-meta-item"><span class="cert-meta-label">Length</span><span class="cert-meta-value">About 75 minutes</span></div>
+          <div class="cert-meta-item"><span class="cert-meta-label">Certificate ID</span><span class="cert-meta-value is-id">UC-7TQP-Q0C4</span></div>
+          <a class="cert-verify" href="https://edu.ucademy.ca/verify/UC-7TQP-Q0C4/" target="_blank" rel="noopener">Verify certificate ↗</a>
+        </div>
       </div>
     </div>
   </div>
