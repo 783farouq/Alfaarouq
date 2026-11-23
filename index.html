@@ -2,1394 +2,594 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Umar Farouq — Explorer at the Edge</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Umar Farouq — Web3 builder, engineer, author</title>
+<meta name="description" content="Umar Farouq is an Agricultural and Bioresources Engineering student at FUT Minna who builds on-chain payment apps, automates with AI, and wrote Al-ʿIlm, a book on seeking knowledge.">
+<meta name="theme-color" content="#0d1322">
+<meta property="og:title" content="Umar Farouq">
+<meta property="og:description" content="Web3 builder, engineering student and author of Al-ʿIlm.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230d1322'/%3E%3Ctext x='32' y='43' font-family='Georgia,serif' font-size='32' text-anchor='middle' fill='%23d4ad57'%3EUF%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Syne:wght@400;500;600;700;800&family=Syne+Mono&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Hanken+Grotesk:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 <style>
+/* Layout concept: left-aligned editorial index. Each section is a two-column
+   spread: the section title sits in a narrow left rail, the content in the wide
+   right column. Work is shown as a ledger of rows, not as cards.
+   Boldness lives in one place: the oversized serif name in the hero. */
 
-/* ─── TOKENS ─────────────────────────────── */
 :root {
-  --cream:   #f4f0e6;
-  --ink:     #0f0e0b;
-  --mid:     #6b6860;
-  --rule:    #d8d3c8;
-  --accent:  #1a1a1a;
-  --gold:    #b8953a;
-  --electric:#005eff;
-  --serif:   'Cormorant Garamond', Georgia, serif;
-  --sans:    'Syne', sans-serif;
-  --mono:    'Syne Mono', monospace;
+  --bg:        #0d1322;
+  --surface:   #131b2e;
+  --surface-2: #19233a;
+  --line:      #263250;
+  --text:      #ece7da;
+  --muted:     #9aa5bb;
+  --gold:      #d4ad57;
+  --gold-soft: rgba(212,173,87,.13);
+  --live:      #6fcf97;
+
+  --display: 'Instrument Serif', 'Iowan Old Style', Georgia, serif;
+  --body:    'Hanken Grotesk', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --data:    'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace;
+  --arabic:  'Amiri', 'Noto Naskh Arabic', serif;
+
+  --rail: 200px;
+  --gutter: clamp(20px, 5vw, 64px);
+  color-scheme: dark;
 }
 
-/* ─── RESET ──────────────────────────────── */
-*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
-html { scroll-behavior: smooth; font-size: 16px; }
-
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; scroll-padding-top: 88px; -webkit-text-size-adjust: 100%; }
 body {
-  background: var(--cream);
-  color: var(--ink);
-  font-family: var(--sans);
-  font-weight: 400;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--body);
+  font-size: 17px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
-  cursor: none;
 }
+a { color: inherit; }
+img, svg { max-width: 100%; display: block; }
+ul { list-style: none; }
 
-/* ─── CUSTOM CURSOR ─────────────────────── */
-.cur {
-  position: fixed; width:8px; height:8px;
-  background: var(--ink); border-radius:50%;
-  pointer-events:none; z-index:9999;
-  transition: transform .2s ease, background .2s;
-  transform: translate(-50%,-50%);
-}
-.cur-ring {
-  position:fixed; width:32px; height:32px;
-  border:1px solid var(--ink); border-radius:50%;
-  pointer-events:none; z-index:9998;
-  transition: transform .35s ease, left .08s linear, top .08s linear;
-  transform: translate(-50%,-50%);
-  opacity:.35;
-}
-body:hover .cur { background: var(--ink); }
-a:hover ~ .cur,
-button:hover ~ .cur { transform: translate(-50%,-50%) scale(3); }
+:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 3px; }
+::selection { background: var(--gold); color: var(--bg); }
 
-/* ─── NAV ────────────────────────────────── */
-nav {
-  position: fixed; top:0; left:0; right:0; z-index:100;
-  padding: 28px 64px;
-  display: flex; justify-content:space-between; align-items:center;
-  mix-blend-mode: multiply;
+.skip {
+  position: absolute; left: 16px; top: -60px; z-index: 100;
+  background: var(--gold); color: var(--bg); padding: 10px 16px; border-radius: 8px;
+  font-weight: 600; text-decoration: none;
 }
-.nav-logo {
-  font-family: var(--mono);
-  font-size: 11px; letter-spacing:.18em; text-transform:uppercase;
-  color: var(--ink);
-}
-.nav-links { display:flex; gap:36px; list-style:none; }
-.nav-links a {
-  font-family: var(--mono); font-size:10px;
-  letter-spacing:.15em; text-transform:uppercase;
-  color: var(--mid); text-decoration:none;
-  transition: color .25s;
-}
-.nav-links a:hover { color: var(--ink); }
+.skip:focus { top: 12px; }
 
-/* ─── HERO ───────────────────────────────── */
-.hero {
-  min-height: 100vh;
-  display: grid;
-  grid-template-rows: 1fr auto;
-  padding: 0 64px;
-  position: relative;
-  overflow: hidden;
-}
+.wrap { max-width: 1240px; margin: 0 auto; padding-inline: var(--gutter); }
 
-/* large background index number */
-.hero-bg-num {
-  position: absolute;
-  right: -40px; top: 50%;
-  transform: translateY(-55%);
-  font-family: var(--serif);
-  font-size: clamp(280px, 30vw, 480px);
-  font-weight: 300;
-  font-style: italic;
-  color: transparent;
-  -webkit-text-stroke: 1px rgba(15,14,11,.06);
-  line-height: 1;
-  pointer-events:none;
-  user-select:none;
+/* ── Top bar ─────────────────────────────── */
+.bar {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(13,19,34,.82);
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid transparent;
+  transition: border-color .3s;
 }
+.bar.scrolled { border-bottom-color: var(--line); }
+.bar .wrap { display: flex; align-items: center; justify-content: space-between; height: 68px; }
+.mark { font-family: var(--display); font-size: 25px; text-decoration: none; letter-spacing: .005em; }
+.nav { display: flex; align-items: center; gap: 30px; }
+.nav a {
+  font-size: 15px; color: var(--muted); text-decoration: none; padding: 6px 0;
+  background: linear-gradient(var(--gold), var(--gold)) 0 100% / 0 1px no-repeat;
+  transition: color .25s, background-size .3s;
+}
+.nav a:hover, .nav a.on { color: var(--text); background-size: 100% 1px; }
+.nav a.pill {
+  color: var(--bg); background: var(--gold); padding: 9px 18px; border-radius: 999px; font-weight: 600;
+  transition: transform .25s, background-color .25s;
+}
+.nav a.pill:hover { background: #e3c176; transform: translateY(-1px); }
 
-.hero-content {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  padding-bottom: 64px;
-  padding-top: 140px;
-  position: relative;
-  z-index: 1;
+/* ── Hero ────────────────────────────────── */
+.hero { padding: clamp(56px, 11vh, 120px) 0 clamp(48px, 8vh, 88px); }
+.hero h1 {
+  font-family: var(--display); font-weight: 400;
+  font-size: clamp(76px, 15.5vw, 224px);
+  line-height: .86; letter-spacing: -.035em;
+  margin-left: -.04em;
 }
+.hero h1 .ln { display: block; overflow: hidden; padding-bottom: .24em; margin-bottom: -.24em; }
+.hero h1 .ln > span { display: block; animation: rise 1.1s cubic-bezier(.2,.8,.2,1) both; }
+.hero h1 .ln:nth-child(2) > span { animation-delay: .12s; font-style: italic; color: var(--gold); }
+@keyframes rise { from { transform: translateY(105%); } to { transform: none; } }
 
-.hero-label {
-  font-family: var(--mono);
-  font-size: 10px; letter-spacing:.28em; text-transform:uppercase;
-  color: var(--mid); margin-bottom:40px;
-  display: flex; align-items:center; gap:14px;
+.hero-row {
+  display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr);
+  gap: clamp(32px, 6vw, 96px); margin-top: clamp(40px, 7vh, 80px); align-items: end;
 }
-.hero-label::before {
-  content:''; width:24px; height:1px; background:var(--mid);
-}
-
-.hero-name {
-  font-family: var(--serif);
-  font-size: clamp(80px, 12vw, 180px);
-  font-weight: 300;
-  line-height: .9;
-  letter-spacing: -.02em;
-  margin-bottom: 48px;
-}
-.hero-name em {
-  font-style: italic;
-  color: var(--mid);
-}
-
-.hero-bottom {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 40px;
-  padding: 40px 0;
-  border-top: 1px solid var(--rule);
-  position: relative;
-  z-index:1;
-}
-
-.hero-tagline {
-  font-family: var(--serif);
-  font-size: clamp(18px,1.8vw,24px);
-  font-style: italic;
-  font-weight: 300;
-  line-height: 1.5;
-  color: var(--mid);
-  grid-column: 1/3;
-}
-.hero-tagline strong { color:var(--ink); font-style:normal; font-weight:400; }
-
-.hero-cta {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-end;
-  gap: 12px;
-}
+.lede { font-size: clamp(20px, 2.1vw, 26px); line-height: 1.5; max-width: 34ch; }
+.lede b { font-weight: 500; color: var(--gold); }
+.cta { display: flex; flex-wrap: wrap; gap: 12px; justify-self: end; }
 .btn {
-  font-family: var(--mono);
-  font-size: 10px; letter-spacing:.18em; text-transform:uppercase;
-  text-decoration:none; padding: 12px 24px;
-  transition: all .3s;
-  display:inline-block;
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 14px 24px; border-radius: 999px; font-weight: 600; font-size: 16px; text-decoration: none;
+  border: 1px solid var(--line); transition: transform .25s, background-color .25s, border-color .25s, color .25s;
 }
-.btn-dark {
-  background: var(--ink); color: var(--cream);
-}
-.btn-dark:hover { background: var(--gold); color: var(--cream); }
-.btn-outline {
-  border: 1px solid var(--rule); color: var(--mid);
-}
-.btn-outline:hover { border-color:var(--ink); color:var(--ink); }
+.btn:hover { transform: translateY(-2px); border-color: var(--gold); }
+.btn.solid { background: var(--gold); color: var(--bg); border-color: var(--gold); }
+.btn.solid:hover { background: #e3c176; }
+.btn svg { width: 18px; height: 18px; fill: currentColor; }
 
-/* ─── SECTION SHARED ─────────────────────── */
-.section { padding: 120px 64px; }
-.section-inner { max-width: 1160px; margin: 0 auto; }
+.facts {
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-top: clamp(48px, 8vh, 88px); border-top: 1px solid var(--line);
+}
+.facts > div { padding: 22px 24px 0 0; }
+.facts dt { font-size: 14px; color: var(--muted); margin-bottom: 4px; }
+.facts dd { font-size: 17px; line-height: 1.4; }
 
-.sec-label {
-  font-family: var(--mono);
-  font-size: 9px; letter-spacing:.3em; text-transform:uppercase;
-  color: var(--mid); margin-bottom:64px;
-  display:flex; align-items:center; gap:16px;
+/* ── Section spreads ─────────────────────── */
+.spread { padding: clamp(64px, 11vh, 120px) 0; border-top: 1px solid var(--line); }
+.spread .wrap { display: grid; grid-template-columns: var(--rail) minmax(0, 1fr); gap: clamp(24px, 5vw, 72px); }
+.spread h2 {
+  font-family: var(--display); font-weight: 400; font-size: clamp(34px, 3.4vw, 46px);
+  line-height: 1.05; letter-spacing: -.01em; position: sticky; top: 100px; align-self: start;
 }
-.sec-label::after { content:''; flex:1; height:1px; background:var(--rule); }
+.spread h2 small { display: block; font-family: var(--body); font-size: 15px; line-height: 1.5; color: var(--muted); letter-spacing: 0; margin-top: 12px; }
 
-.sec-title {
-  font-family: var(--serif);
-  font-size: clamp(44px, 6vw, 88px);
-  font-weight: 300; line-height:1.05;
-  letter-spacing:-.02em;
-}
-.sec-title em { font-style:italic; color:var(--mid); }
+/* ── Work ledger ─────────────────────────── */
+.work { padding: 0 0 clamp(56px, 9vh, 96px); }
+.work + .work { padding-top: clamp(56px, 9vh, 96px); border-top: 1px solid var(--line); }
+.work:last-child { padding-bottom: 0; }
+.work-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 24px; margin-bottom: 20px; }
+.work h3 { font-family: var(--display); font-weight: 400; font-size: clamp(38px, 4.6vw, 62px); line-height: 1; letter-spacing: -.015em; }
+.work h3 em { color: var(--gold); }
+.work .when { color: var(--muted); font-size: 15px; }
+.work p.what { max-width: 58ch; color: #cfcabd; }
+.work .grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(28px, 4vw, 56px); margin-top: 32px; align-items: start; }
+.facts-list li { padding: 13px 0; border-top: 1px solid var(--line); display: grid; grid-template-columns: 120px 1fr; gap: 16px; font-size: 16px; }
+.facts-list li:last-child { border-bottom: 1px solid var(--line); }
+.facts-list span:first-child { color: var(--muted); }
+.live { display: inline-flex; align-items: center; gap: 8px; }
+.live::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--live); box-shadow: 0 0 0 0 rgba(111,207,151,.5); animation: ping 2.4s infinite; }
+@keyframes ping { 70% { box-shadow: 0 0 0 9px rgba(111,207,151,0); } 100% { box-shadow: 0 0 0 0 rgba(111,207,151,0); } }
+.links { display: flex; flex-wrap: wrap; gap: 10px 22px; margin-top: 26px; }
+.tlink { font-weight: 600; text-decoration: none; border-bottom: 1px solid var(--gold); padding-bottom: 2px; transition: color .25s; }
+.tlink:hover { color: var(--gold); }
+code, .data { font-family: var(--data); font-size: .88em; }
 
-/* REVEAL */
-.reveal {
-  opacity:0; transform:translateY(40px);
-  transition: opacity .9s cubic-bezier(.16,1,.3,1), transform .9s cubic-bezier(.16,1,.3,1);
+/* ArcPay interface preview */
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 22px; }
+.panel-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; font-size: 15px; }
+.panel-top b { font-weight: 600; }
+.net { font-size: 13px; color: var(--live); display: inline-flex; align-items: center; gap: 7px; background: rgba(111,207,151,.09); padding: 5px 11px; border-radius: 999px; }
+.net::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+.amount { font-family: var(--display); font-size: 58px; line-height: 1; letter-spacing: -.02em; margin: 6px 0 20px; }
+.amount span { font-family: var(--body); font-size: 16px; color: var(--muted); letter-spacing: 0; margin-left: 6px; }
+.rows > div { display: flex; justify-content: space-between; gap: 16px; padding: 11px 0; border-top: 1px solid var(--line); font-size: 15px; }
+.rows dt { color: var(--muted); }
+.rows dd { text-align: right; }
+.status { color: var(--gold); }
+.fake-btn { margin-top: 18px; text-align: center; background: var(--gold); color: var(--bg); border-radius: 10px; padding: 13px; font-weight: 600; }
+.caption { margin-top: 12px; font-size: 14px; color: var(--muted); }
+.copy {
+  font: inherit; font-family: var(--data); font-size: 14px; color: var(--text);
+  background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 4px 10px; cursor: pointer;
+  transition: border-color .25s, color .25s;
 }
-.reveal.in { opacity:1; transform:translateY(0); }
-.reveal-d1 { transition-delay:.1s; }
-.reveal-d2 { transition-delay:.2s; }
-.reveal-d3 { transition-delay:.3s; }
+.copy:hover { border-color: var(--gold); color: var(--gold); }
 
-/* ─── DIVIDER LINE ───────────────────────── */
-.hr { border:none; border-top:1px solid var(--rule); margin:0; }
+/* Al-ʿIlm cover */
+.cover {
+  position: relative; aspect-ratio: 4 / 5; max-width: 380px; width: 100%;
+  background: radial-gradient(120% 90% at 50% 0%, #1d2a47 0%, var(--surface) 60%);
+  border: 1px solid var(--gold); border-radius: 6px; padding: 14px;
+}
+.cover::before { content: ''; position: absolute; inset: 14px; border: 1px solid rgba(212,173,87,.35); border-radius: 2px; pointer-events: none; }
+.cover-in { height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 14px; padding: 24px; }
+.cover .ar { font-family: var(--arabic); font-size: clamp(72px, 9vw, 104px); line-height: 1.1; color: var(--gold); }
+.cover .lat { font-family: var(--display); font-size: 34px; line-height: 1; }
+.cover .sub { font-size: 14px; color: var(--muted); max-width: 24ch; }
+.chapters { counter-reset: ch; }
+.chapters li { counter-increment: ch; padding: 12px 0; border-top: 1px solid var(--line); display: grid; grid-template-columns: 38px 1fr; font-size: 16px; }
+.chapters li::before { content: counter(ch, upper-roman); color: var(--gold); font-family: var(--display); font-size: 19px; }
+.chapters li:last-child { border-bottom: 1px solid var(--line); }
+.chapters-title { font-size: 15px; color: var(--muted); margin-bottom: 10px; }
 
-/* ─── ABOUT ──────────────────────────────── */
-#about { background: var(--cream); }
+/* n8n flow */
+.flow { display: flex; align-items: stretch; gap: 0; margin-top: 32px; }
+.node { flex: 1; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 18px 20px; min-width: 0; }
+.node b { display: block; font-weight: 600; margin-bottom: 4px; }
+.node span { color: var(--muted); font-size: 15px; line-height: 1.45; display: block; }
+.join { width: 44px; flex: none; display: grid; place-items: center; color: var(--gold); }
+.join svg { width: 28px; height: 14px; stroke: currentColor; fill: none; stroke-width: 1.6; }
 
-.about-grid {
-  display: grid;
-  grid-template-columns: 1fr 1.6fr;
-  gap: 80px;
-  align-items: start;
-  margin-top: 80px;
+/* ── Engineering ─────────────────────────── */
+.eng-lede { font-family: var(--display); font-size: clamp(28px, 3vw, 40px); line-height: 1.2; letter-spacing: -.01em; max-width: 24ch; }
+.eng-meta { color: var(--muted); margin: 14px 0 0; }
+.train { margin-top: 40px; }
+.train-title { font-size: 15px; color: var(--muted); margin-bottom: 12px; }
+.train ol { display: flex; list-style: none; border: 1px solid var(--line); border-radius: 14px; overflow: hidden; background: var(--surface); }
+.train li { flex: 1; padding: 20px 18px 20px 22px; position: relative; font-weight: 500; min-width: 0; }
+.train li + li { border-left: 1px solid var(--line); }
+.train li:not(:last-child)::after {
+  content: ''; position: absolute; right: -7px; top: 50%; width: 13px; height: 13px; z-index: 2;
+  background: var(--surface); border-top: 1px solid var(--line); border-right: 1px solid var(--line);
+  transform: translateY(-50%) rotate(45deg);
 }
+.train li small { display: block; font-weight: 400; color: var(--muted); font-size: 14px; margin-top: 2px; }
+.duties { margin-top: 40px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 clamp(28px, 4vw, 56px); }
+.duties li { padding: 16px 0; border-top: 1px solid var(--line); }
+.duties b { display: block; font-weight: 600; margin-bottom: 2px; }
+.duties span { color: #cfcabd; font-size: 16px; }
+.abe { margin-top: 40px; padding: 20px 24px; background: var(--surface); border-radius: 12px; font-size: 16px; }
+.abe b { font-weight: 600; }
 
-.about-meta { display:flex; flex-direction:column; gap:0; }
-.meta-row {
-  padding: 18px 0;
-  border-bottom: 1px solid var(--rule);
-  display:flex; justify-content:space-between; align-items:baseline;
-  gap:16px;
-}
-.meta-row:first-child { border-top:1px solid var(--rule); }
-.meta-key {
-  font-family: var(--mono); font-size:9px; letter-spacing:.2em;
-  text-transform:uppercase; color:var(--mid); flex-shrink:0;
-}
-.meta-val {
-  font-family: var(--serif); font-size:17px;
-  font-weight:400; text-align:right; color:var(--ink);
-}
+/* ── About ───────────────────────────────── */
+.about p { max-width: 58ch; margin-bottom: 18px; color: #d8d3c6; }
+.about p strong { font-weight: 500; color: var(--text); }
+.quote { font-family: var(--display); font-size: clamp(30px, 3.6vw, 48px); line-height: 1.12; letter-spacing: -.012em; max-width: 21ch; margin: 44px 0 10px; color: var(--text); }
+.quote-by { color: var(--muted); font-size: 15px; }
+.why { margin-top: 48px; }
+.why h3 { font-weight: 600; font-size: 17px; margin-bottom: 4px; }
+.why ol { list-style: none; }
+.why li { padding: 16px 0; border-top: 1px solid var(--line); max-width: 62ch; }
+.why li:last-child { border-bottom: 1px solid var(--line); }
+.why li b { font-weight: 600; }
 
-.about-text {
-  display:flex; flex-direction:column; gap:28px;
-}
-.about-p {
-  font-family: var(--serif);
-  font-size: clamp(18px,2vw,24px);
-  font-weight:300; line-height:1.7;
-  color: var(--ink);
-}
-.about-p strong { font-weight:600; }
-.about-p em { font-style:italic; color:var(--mid); }
+/* ── Toolkit ─────────────────────────────── */
+.kit > div { display: grid; grid-template-columns: 170px minmax(0, 1fr); gap: 20px; padding: 18px 0; border-top: 1px solid var(--line); }
+.kit > div:last-child { border-bottom: 1px solid var(--line); }
+.kit dt { color: var(--muted); }
+.kit dd { font-size: 17px; }
 
-/* identity pills */
-.id-pills { display:flex; flex-wrap:wrap; gap:8px; margin-top:8px; }
-.id-pill {
-  font-family: var(--mono); font-size:9px; letter-spacing:.14em;
-  text-transform:uppercase; padding:7px 16px;
-  border:1px solid var(--rule); color:var(--mid);
-  transition: all .3s;
-}
-.id-pill:hover { border-color:var(--ink); color:var(--ink); }
-.id-pill.active { border-color:var(--ink); background:var(--ink); color:var(--cream); }
+/* ── Credentials ─────────────────────────── */
+.creds { display: grid; gap: 0; }
+.cred { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 28px; padding: 22px 0; border-top: 1px solid var(--line); align-items: start; }
+.cred:last-child { border-bottom: 1px solid var(--line); }
+.cred h3 { font-family: var(--display); font-weight: 400; font-size: 28px; line-height: 1.15; }
+.cred p { color: var(--muted); font-size: 15px; margin-top: 6px; }
+.cred .meta { font-size: 16px; }
+.cred .meta div { display: flex; justify-content: space-between; gap: 16px; padding: 4px 0; }
+.cred .meta span:first-child { color: var(--muted); }
 
-/* ─── PROJECTS ───────────────────────────── */
-#projects { background: var(--ink); }
-#projects .sec-label { color: rgba(244,240,230,.35); }
-#projects .sec-label::after { background: rgba(244,240,230,.1); }
-#projects .sec-title { color: var(--cream); }
-#projects .sec-title em { color: rgba(244,240,230,.35); }
+/* ── Contact ─────────────────────────────── */
+.contact-big {
+  display: inline-block; font-family: var(--display); font-size: clamp(40px, 7.4vw, 108px);
+  line-height: 1; letter-spacing: -.025em; text-decoration: none;
+  background: linear-gradient(var(--gold), var(--gold)) 0 100% / 100% 2px no-repeat;
+  padding-bottom: 10px; transition: color .3s;
+}
+.contact-big:hover { color: var(--gold); }
+.contact-note { color: var(--muted); margin: 20px 0 36px; max-width: 46ch; }
+.reach { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 clamp(28px, 4vw, 56px); }
+.reach a { display: flex; justify-content: space-between; gap: 16px; padding: 15px 0; border-top: 1px solid var(--line); text-decoration: none; transition: color .25s; }
+.reach a:hover { color: var(--gold); }
+.reach a span:last-child { color: var(--muted); word-break: break-word; text-align: right; }
+.reach a:hover span:last-child { color: var(--gold); }
 
-.projects-list { margin-top:80px; }
+footer { border-top: 1px solid var(--line); padding: 28px 0 40px; color: var(--muted); font-size: 15px; }
+footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; }
 
-.proj-item {
-  padding: 48px 0;
-  border-bottom: 1px solid rgba(244,240,230,.1);
-  display: grid;
-  grid-template-columns: 64px 1fr auto;
-  gap: 40px;
-  align-items: start;
-  transition: all .35s;
-  cursor: default;
-}
-.proj-item:first-child { border-top:1px solid rgba(244,240,230,.1); }
-.proj-item:hover { padding-left:16px; }
-
-.proj-num {
-  font-family: var(--serif); font-size:13px;
-  color: rgba(244,240,230,.25); font-style:italic;
-  padding-top:6px;
-}
-
-.proj-body { flex:1; }
-.proj-type {
-  font-family: var(--mono); font-size:9px; letter-spacing:.2em;
-  text-transform:uppercase; color: rgba(244,240,230,.35);
-  margin-bottom:16px;
-}
-.proj-title {
-  font-family: var(--serif);
-  font-size: clamp(28px,3.5vw,48px);
-  font-weight:300; line-height:1.1;
-  color: var(--cream); margin-bottom:16px;
-}
-.proj-title em { font-style:italic; color: rgba(244,240,230,.5); }
-.proj-desc {
-  font-family: var(--serif);
-  font-size:18px; font-weight:300; line-height:1.65;
-  color: rgba(244,240,230,.55);
-  max-width:600px;
-}
-
-/* book chapters inside project */
-.proj-chapters {
-  margin-top:28px;
-  display:flex; flex-direction:column; gap:1px;
-}
-.proj-ch {
-  display:flex; gap:16px; align-items:baseline;
-  padding: 12px 0;
-  border-bottom:1px solid rgba(244,240,230,.06);
-  font-family:var(--serif); font-size:15px; font-weight:300;
-  color:rgba(244,240,230,.4);
-  transition: color .3s;
-}
-.proj-ch:hover { color:rgba(244,240,230,.8); }
-.proj-ch-n { font-family:var(--mono); font-size:9px; color:var(--gold); letter-spacing:.1em; flex-shrink:0; }
-
-.proj-tags {
-  display:flex; flex-wrap:wrap; gap:6px; margin-top:24px;
-}
-.ptag {
-  font-family:var(--mono); font-size:8px; letter-spacing:.14em;
-  text-transform:uppercase; padding:5px 12px;
-  border:1px solid rgba(244,240,230,.15); color:rgba(244,240,230,.4);
-  transition: all .3s;
-}
-.proj-item:hover .ptag { border-color:rgba(244,240,230,.3); color:rgba(244,240,230,.7); }
-
-.proj-aside {
-  display:flex; flex-direction:column; gap:12px; align-items:flex-end;
-  padding-top:6px;
-}
-.proj-year {
-  font-family:var(--mono); font-size:10px; letter-spacing:.1em;
-  color:rgba(244,240,230,.2);
-}
-.proj-link {
-  font-family:var(--mono); font-size:9px; letter-spacing:.14em;
-  text-transform:uppercase; padding:9px 18px;
-  border:1px solid rgba(244,240,230,.2); color:rgba(244,240,230,.5);
-  text-decoration:none; transition:all .3s; white-space:nowrap;
-}
-.proj-link:hover { border-color:var(--cream); color:var(--cream); }
-
-/* union badge */
-.union-live {
-  display:inline-flex; align-items:center; gap:8px;
-  font-family:var(--mono); font-size:9px; letter-spacing:.14em;
-  text-transform:uppercase; color:var(--gold);
-  margin-bottom:14px;
-}
-.ulive-dot {
-  width:5px; height:5px; border-radius:50%;
-  background:var(--gold);
-  animation: pulse 2s ease-in-out infinite;
-}
-@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.3;transform:scale(.8)} }
-
-/* ─── QUOTE / MANIFESTO ──────────────────── */
-.manifesto {
-  padding: 140px 64px;
-  background: var(--cream);
-  text-align: center;
-  position:relative; overflow:hidden;
-}
-
-.manifesto-bg {
-  position:absolute; inset:0;
-  display:flex; align-items:center; justify-content:center;
-  pointer-events:none; user-select:none;
-  overflow:hidden;
-}
-.manifesto-bg-word {
-  font-family: var(--serif);
-  font-size: clamp(120px,18vw,260px);
-  font-weight:300; font-style:italic;
-  color:transparent;
-  -webkit-text-stroke:1px rgba(15,14,11,.04);
-  white-space:nowrap; line-height:1;
-}
-
-.manifesto-inner { position:relative; z-index:1; max-width:900px; margin:0 auto; }
-
-.manifesto-q1 {
-  font-family: var(--serif);
-  font-size: clamp(24px,3.5vw,52px);
-  font-weight:300; font-style:italic; line-height:1.35;
-  color: var(--ink); margin-bottom:0;
-}
-.manifesto-q1 span { color: var(--gold); }
-
-.manifesto-rule {
-  display:flex; align-items:center; gap:20px;
-  justify-content:center; margin:44px auto;
-}
-.mfst-line { flex:1; max-width:100px; height:1px; background:var(--rule); }
-.mfst-glyph { font-size:10px; color:var(--mid); letter-spacing:.3em; }
-
-.manifesto-q2 {
-  font-family: var(--sans);
-  font-size: clamp(32px,5vw,72px);
-  font-weight:800; line-height:1; letter-spacing:-.03em;
-  color: var(--ink); text-transform:uppercase;
-  margin-bottom:8px;
-}
-.manifesto-q2 em {
-  font-style:normal;
-  -webkit-text-stroke:1px var(--ink);
-  color:transparent;
-}
-
-.manifesto-attr {
-  margin-top:48px;
-  font-family:var(--mono); font-size:9px; letter-spacing:.25em;
-  text-transform:uppercase; color:var(--mid);
-}
-
-/* ─── INSPIRATIONS / CURIOSITY ───────────── */
-#curiosity { background: var(--cream); border-top:1px solid var(--rule); }
-
-.curiosity-grid {
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:80px;
-  margin-top:80px;
-  align-items:start;
-}
-
-.inspo-label {
-  font-family:var(--mono); font-size:9px; letter-spacing:.25em;
-  text-transform:uppercase; color:var(--mid); margin-bottom:32px;
-}
-
-.inspo-items { display:flex; flex-direction:column; gap:1px; }
-.inspo-item {
-  padding:28px 0;
-  border-bottom:1px solid var(--rule);
-  display:grid; grid-template-columns:48px 1fr;
-  gap:24px; align-items:start;
-  transition: padding-left .3s;
-}
-.inspo-item:first-child { border-top:1px solid var(--rule); }
-.inspo-item:hover { padding-left:8px; }
-.inspo-n {
-  font-family:var(--serif); font-size:32px; font-style:italic;
-  font-weight:300; color:var(--rule); line-height:1;
-}
-.inspo-text {
-  font-family:var(--serif); font-size:19px;
-  font-weight:300; line-height:1.6; color:var(--ink);
-}
-.inspo-text strong { font-weight:600; }
-
-/* reading list */
-.reads-title {
-  font-family:var(--mono); font-size:9px; letter-spacing:.25em;
-  text-transform:uppercase; color:var(--mid); margin-bottom:32px;
-}
-.read-items { display:flex; flex-direction:column; gap:1px; }
-.read-item {
-  padding:22px 0;
-  border-bottom:1px solid var(--rule);
-  display:flex; gap:20px; align-items:flex-start;
-  transition:padding-left .3s;
-}
-.read-item:first-child { border-top:1px solid var(--rule); }
-.read-item:hover { padding-left:8px; }
-.read-icon { font-size:18px; flex-shrink:0; margin-top:2px; }
-.read-title {
-  font-family:var(--serif); font-size:18px;
-  font-weight:400; color:var(--ink); margin-bottom:4px;
-}
-.read-source {
-  font-family:var(--mono); font-size:9px; letter-spacing:.1em;
-  text-transform:uppercase; color:var(--mid);
-}
-
-/* ─── DOMAINS / SKILLS ───────────────────── */
-#domains { background: #f0ece0; border-top:1px solid var(--rule); }
-
-.domains-grid {
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:1px;
-  margin-top:80px;
-  background:var(--rule);
-}
-
-.domain-card {
-  background:#f0ece0;
-  padding:56px 48px;
-  transition:background .35s;
-}
-.domain-card:hover { background:var(--cream); }
-
-.domain-num {
-  font-family:var(--serif); font-size:72px;
-  font-style:italic; font-weight:300;
-  color:var(--rule); line-height:1;
-  margin-bottom:24px;
-}
-
-.domain-title {
-  font-family:var(--sans); font-size:22px;
-  font-weight:700; letter-spacing:-.01em;
-  color:var(--ink); margin-bottom:8px;
-  text-transform:uppercase;
-}
-.domain-sub {
-  font-family:var(--serif); font-size:16px;
-  font-style:italic; color:var(--mid); margin-bottom:20px;
-}
-.domain-body {
-  font-family:var(--serif); font-size:16px;
-  font-weight:300; line-height:1.7; color:var(--mid);
-}
-.domain-tags { display:flex; flex-wrap:wrap; gap:6px; margin-top:24px; }
-.dtag {
-  font-family:var(--mono); font-size:8px; letter-spacing:.14em;
-  text-transform:uppercase; padding:5px 11px;
-  border:1px solid var(--rule); color:var(--mid);
-  transition:all .3s;
-}
-.domain-card:hover .dtag { border-color: rgba(15,14,11,.2); }
-
-/* ─── LEARNING ───────────────────────────── */
-#learning { background:var(--ink); }
-#learning .sec-label { color:rgba(244,240,230,.3); }
-#learning .sec-label::after { background:rgba(244,240,230,.1); }
-#learning .sec-title { color:var(--cream); }
-#learning .sec-title em { color:rgba(244,240,230,.3); }
-
-.learning-grid {
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:1px;
-  margin-top:80px;
-  background:rgba(244,240,230,.08);
-}
-
-.learn-card {
-  background:var(--ink);
-  padding:48px 36px;
-  transition:background .35s;
-  position:relative; overflow:hidden;
-}
-.learn-card::before {
-  content:'';
-  position:absolute; top:0; left:0; right:0; height:2px;
-  transform:scaleX(0); transform-origin:left;
-  transition:transform .5s cubic-bezier(.16,1,.3,1);
-}
-.learn-card.c-active::before { background:var(--electric); }
-.learn-card.c-next::before { background:var(--gold); }
-.learn-card.c-explore::before { background:var(--mid); }
-.learn-card:hover { background:rgba(244,240,230,.03); }
-.learn-card:hover::before { transform:scaleX(1); }
-
-.learn-status {
-  font-family:var(--mono); font-size:8px; letter-spacing:.2em;
-  text-transform:uppercase; margin-bottom:32px;
-  display:flex; align-items:center; gap:8px;
-}
-.c-active .learn-status { color:var(--electric); }
-.c-next .learn-status { color:var(--gold); }
-.c-explore .learn-status { color:var(--mid); }
-
-.ls-dot {
-  width:5px; height:5px; border-radius:50%; background:currentColor;
-}
-.c-active .ls-dot { animation:pulse 1.5s ease-in-out infinite; }
-
-.learn-title {
-  font-family:var(--serif); font-size:clamp(20px,2vw,28px);
-  font-weight:300; color:var(--cream); margin-bottom:8px; line-height:1.2;
-}
-.learn-src {
-  font-family:var(--mono); font-size:9px; letter-spacing:.1em;
-  text-transform:uppercase; color:rgba(244,240,230,.3); margin-bottom:20px;
-}
-.learn-body {
-  font-family:var(--serif); font-size:16px;
-  font-weight:300; line-height:1.7;
-  color:rgba(244,240,230,.4);
-}
-
-/* ─── CERTIFICATES ───────────────────────── */
-#certificates { background:var(--cream); }
-
-.cert-list {
-  margin-top:80px;
-  border-top:1px solid var(--rule);
-}
-.cert-row {
-  display:grid;
-  grid-template-columns:1.5fr 1fr;
-  gap:48px;
-  padding:48px 0;
-  border-bottom:1px solid var(--rule);
-  align-items:start;
-}
-.cert-kind {
-  font-family:var(--mono); font-size:8px; letter-spacing:.25em;
-  text-transform:uppercase; color:var(--gold); margin-bottom:20px;
-}
-.cert-title {
-  font-family:var(--serif); font-size:clamp(24px,2.6vw,38px);
-  font-weight:300; line-height:1.2; color:var(--ink); margin-bottom:12px;
-}
-.cert-issuer {
-  font-family:var(--mono); font-size:9px; letter-spacing:.1em;
-  text-transform:uppercase; color:var(--mid);
-}
-.cert-meta { display:flex; flex-direction:column; gap:14px; }
-.cert-meta-item {
-  display:flex; justify-content:space-between; align-items:baseline; gap:16px;
-  padding-bottom:14px; border-bottom:1px solid var(--rule);
-}
-.cert-meta-label {
-  font-family:var(--mono); font-size:8px; letter-spacing:.2em;
-  text-transform:uppercase; color:var(--mid);
-}
-.cert-meta-value {
-  font-family:var(--serif); font-size:17px; color:var(--ink); text-align:right;
-}
-.cert-meta-value.is-id { font-family:var(--mono); font-size:11px; letter-spacing:.08em; }
-.cert-verify {
-  align-self:flex-start; margin-top:6px;
-  font-family:var(--mono); font-size:9px; letter-spacing:.2em;
-  text-transform:uppercase; color:var(--ink); text-decoration:none;
-  border-bottom:1px solid var(--ink); padding-bottom:4px;
-  transition:color .3s, border-color .3s;
-}
-.cert-verify:hover { color:var(--electric); border-color:var(--electric); }
-
-/* ─── ECOSYSTEM ──────────────────────────── */
-#ecosystem { background:var(--cream); border-top:1px solid var(--rule); }
-
-.eco-grid {
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:0;
-  margin-top:80px;
-}
-
-.eco-col {
-  padding:40px 36px;
-  border-right:1px solid var(--rule);
-}
-.eco-col:last-child { border-right:none; }
-.eco-col:nth-child(n+4) { border-top:1px solid var(--rule); }
-
-.eco-cat {
-  font-family:var(--mono); font-size:8px; letter-spacing:.25em;
-  text-transform:uppercase; color:var(--mid); margin-bottom:24px;
-}
-.eco-items { display:flex; flex-direction:column; gap:14px; }
-.eco-item {
-  display:flex; justify-content:space-between; align-items:baseline;
-  gap:8px;
-}
-.eco-name {
-  font-family:var(--serif); font-size:17px;
-  font-weight:400; color:var(--ink);
-}
-.eco-handle {
-  font-family:var(--mono); font-size:8px; letter-spacing:.1em;
-  text-transform:uppercase; color:var(--mid);
-}
-
-/* ─── CONTACT ────────────────────────────── */
-#contact { background:#f0ece0; border-top:1px solid var(--rule); }
-
-.contact-grid {
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:80px;
-  margin-top:80px;
-  align-items:start;
-}
-
-.contact-text {
-  font-family:var(--serif);
-  font-size:clamp(18px,2vw,26px);
-  font-weight:300; line-height:1.7; color:var(--mid);
-}
-.contact-text strong { color:var(--ink); font-weight:400; }
-
-.contact-links { display:flex; flex-direction:column; gap:1px; margin-top:40px; }
-.contact-link {
-  display:flex; justify-content:space-between; align-items:center;
-  padding:20px 0; border-bottom:1px solid var(--rule);
-  text-decoration:none; color:var(--ink);
-  transition:all .3s;
-}
-.contact-link:first-child { border-top:1px solid var(--rule); }
-.contact-link:hover { padding-left:8px; }
-.contact-link:hover .cl-arrow { opacity:1; transform:translateX(4px); }
-.cl-left { display:flex; align-items:center; gap:16px; }
-.cl-platform {
-  font-family:var(--mono); font-size:9px; letter-spacing:.2em;
-  text-transform:uppercase; color:var(--mid);
-}
-.cl-name {
-  font-family:var(--serif); font-size:20px; font-weight:400;
-}
-.cl-arrow {
-  font-size:18px; opacity:.2;
-  transition: opacity .3s, transform .3s;
-}
-
-/* stats on right */
-.contact-stats { display:flex; flex-direction:column; gap:0; }
-.c-stat {
-  padding:32px 0; border-bottom:1px solid var(--rule);
-  display:flex; gap:24px; align-items:baseline;
-}
-.c-stat:first-child { border-top:1px solid var(--rule); }
-.c-stat-n {
-  font-family:var(--serif); font-size:clamp(40px,5vw,72px);
-  font-style:italic; font-weight:300; color:var(--ink); line-height:1;
-}
-.c-stat-l {
-  font-family:var(--serif); font-size:16px;
-  font-weight:300; color:var(--mid); line-height:1.4;
-}
-.c-stat-l strong { display:block; color:var(--ink); font-weight:400; font-size:18px; }
-
-/* ─── FOOTER ─────────────────────────────── */
-footer {
-  background: var(--ink);
-  padding: 0 64px;
-}
-
-.footer-social-section {
-  padding:64px 0 48px;
-  border-bottom:1px solid rgba(244,240,230,.08);
-}
-
-.footer-social-label {
-  font-family:var(--mono); font-size:9px; letter-spacing:.3em;
-  text-transform:uppercase; color:rgba(244,240,230,.25);
-  text-align:center; margin-bottom:48px;
-}
-
-.social-row {
-  display:flex; gap:0; justify-content:center;
-  flex-wrap:wrap;
-}
-
-.social-card {
-  padding:32px 40px;
-  text-decoration:none;
-  display:flex; flex-direction:column; gap:8px;
-  border-right:1px solid rgba(244,240,230,.08);
-  transition:background .3s;
-  min-width:160px; align-items:center;
-}
-.social-card:last-child { border-right:none; }
-.social-card:hover { background:rgba(244,240,230,.04); }
-.social-card:hover .sc-name { color:var(--cream); }
-
-.sc-platform {
-  font-family:var(--mono); font-size:8px; letter-spacing:.2em;
-  text-transform:uppercase; color:rgba(244,240,230,.25);
-}
-.sc-name {
-  font-family:var(--serif); font-size:17px;
-  color:rgba(244,240,230,.5); transition:color .3s;
-}
-.sc-icon { font-size:20px; margin-bottom:4px; }
-
-.footer-bottom {
-  padding:28px 0;
-  display:flex; justify-content:space-between; align-items:center;
-}
-.footer-copy {
-  font-family:var(--mono); font-size:9px; letter-spacing:.12em;
-  color:rgba(244,240,230,.2);
-}
-.footer-mark {
-  font-family:var(--mono); font-size:9px; letter-spacing:.18em;
-  text-transform:uppercase; color:rgba(244,240,230,.15);
-}
-
-/* ─── SCROLLBAR ──────────────────────────── */
-::-webkit-scrollbar { width:3px; }
-::-webkit-scrollbar-track { background:var(--cream); }
-::-webkit-scrollbar-thumb { background:var(--rule); }
-
-/* ─── RESPONSIVE ─────────────────────────── */
-@media(max-width:900px){
-  nav { padding:20px 24px; }
-  .nav-links { display:none; }
-  .hero { padding:0 24px; }
-  .hero-bottom { grid-template-columns:1fr; }
-  .hero-cta { align-items:flex-start; flex-direction:row; }
-  .section { padding:80px 24px; }
-  .about-grid { grid-template-columns:1fr; gap:48px; }
-  .curiosity-grid { grid-template-columns:1fr; gap:56px; }
-  .domains-grid { grid-template-columns:1fr; }
-  .learning-grid { grid-template-columns:1fr; }
-  .cert-row { grid-template-columns:1fr; gap:32px; }
-  .eco-grid { grid-template-columns:1fr 1fr; }
-  .eco-col { border-right:none; border-bottom:1px solid var(--rule); }
-  .contact-grid { grid-template-columns:1fr; gap:48px; }
-  .manifesto { padding:80px 24px; }
-  .proj-item { grid-template-columns:40px 1fr; }
-  .proj-aside { display:none; }
-  .social-row { justify-content:flex-start; }
-  .social-card { min-width:120px; padding:24px 20px; }
-  footer { padding:0 24px; }
-  .footer-bottom { flex-direction:column; gap:12px; text-align:center; }
-  body { cursor:auto; }
-  .cur,.cur-ring { display:none; }
+/* ── Responsive ──────────────────────────── */
+@media (max-width: 980px) {
+  .spread .wrap { grid-template-columns: 1fr; gap: 28px; }
+  .spread h2 { position: static; }
+  .spread h2 small { display: inline; margin: 0 0 0 10px; }
+  .hero-row { grid-template-columns: 1fr; }
+  .cta { justify-self: start; }
+  .facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .facts > div { padding-bottom: 22px; }
+}
+@media (max-width: 720px) {
+  body { font-size: 16.5px; }
+  .nav a:not(.pill) { display: none; }
+  .work .grid, .duties, .reach, .cred { grid-template-columns: 1fr; }
+  .flow { flex-direction: column; }
+  .join { width: auto; height: 36px; transform: rotate(90deg); }
+  .train ol { flex-direction: column; }
+  .train li + li { border-left: 0; border-top: 1px solid var(--line); }
+  .train li:not(:last-child)::after { right: auto; left: 28px; top: auto; bottom: -7px; transform: rotate(135deg); }
+  .kit > div { grid-template-columns: 1fr; gap: 4px; }
+  .facts-list li { grid-template-columns: 96px 1fr; }
+  .cover { max-width: 100%; aspect-ratio: 5 / 4; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
 }
 </style>
 </head>
 <body>
+<a class="skip" href="#work">Skip to my work</a>
 
-<div class="cur" id="cur"></div>
-<div class="cur-ring" id="curRing"></div>
-
-<!-- NAV -->
-<nav>
-  <div class="nav-logo">U.Farouq</div>
-  <ul class="nav-links">
-    <li><a href="#about">About</a></li>
-    <li><a href="#projects">Works</a></li>
-    <li><a href="#curiosity">Curiosity</a></li>
-    <li><a href="#domains">Domains</a></li>
-    <li><a href="#footer-social">Connect</a></li>
-  </ul>
-</nav>
-
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-bg-num">U</div>
-  <div class="hero-content">
-    <div class="hero-label">Portfolio 2026</div>
-    <h1 class="hero-name">
-      Umar<br><em>Farouq.</em>
-    </h1>
+<header class="bar" id="bar">
+  <div class="wrap">
+    <a class="mark" href="#top" aria-label="Umar Farouq, back to top">Umar Farouq</a>
+    <nav class="nav" aria-label="Sections">
+      <a href="#work">Work</a>
+      <a href="#engineering">Engineering</a>
+      <a href="#about">About</a>
+      <a href="#toolkit">Toolkit</a>
+      <a class="pill" href="#contact">Contact</a>
+    </nav>
   </div>
-  <div class="hero-bottom">
-    <p class="hero-tagline">
-      Explorer. Author. Builder.<br>
-      <strong>Living at the edge of Web3, AI & the human mind.</strong>
-    </p>
-    <div></div>
-    <div class="hero-cta">
-      <a href="#projects" class="btn btn-dark">See My Work</a>
-      <a href="#footer-social" class="btn btn-outline">Let's Connect</a>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap">
+      <h1><span class="ln"><span>Umar</span></span><span class="ln"><span>Farouq</span></span></h1>
+
+      <div class="hero-row">
+        <p class="lede">I build on-chain payment apps, automate work with AI, run water-treatment chemistry in a plant room, and wrote a <b>book on how to seek knowledge.</b></p>
+        <div class="cta">
+          <a class="btn solid" href="https://t.me/Sizukiabimaru" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.9 4.3 18.7 19.5c-.2 1.1-.9 1.4-1.8.9l-5-3.7-2.4 2.3c-.3.3-.5.5-1 .5l.4-5.1 9.3-8.4c.4-.4-.1-.6-.6-.2L6.1 13.1 1.2 11.6c-1.1-.3-1.1-1 .2-1.5L20.4 2.8c.9-.3 1.7.2 1.5 1.5Z"/></svg>
+            Message on Telegram
+          </a>
+          <a class="btn" href="#work">See the work</a>
+        </div>
+      </div>
+
+      <dl class="facts">
+        <div><dt>Studying</dt><dd>B.Eng. Agricultural and Bioresources Engineering, FUT Minna, 2023 to 2027</dd></div>
+        <div><dt>Building</dt><dd>ArcPay, an invoicing dApp live on Circle's Arc Testnet</dd></div>
+        <div><dt>Author of</dt><dd><em>Al-ʿIlm</em>, on the etiquettes and methods of seeking knowledge</dd></div>
+        <div><dt>Based in</dt><dd>Nigeria</dd></div>
+      </dl>
     </div>
-  </div>
-</section>
+  </section>
 
-<hr class="hr">
+  <!-- WORK -->
+  <section class="spread" id="work">
+    <div class="wrap">
+      <h2>Selected work<small>Three things I made and shipped.</small></h2>
+      <div>
 
-<!-- ABOUT -->
-<section class="section" id="about">
-  <div class="section-inner">
-    <div class="sec-label reveal">Who I am</div>
-    <h2 class="sec-title reveal reveal-d1">Curious by <em>nature,</em><br>precise by training.</h2>
-    <div class="about-grid">
-      <div class="about-meta reveal reveal-d2">
-        <div class="meta-row">
-          <span class="meta-key">Location</span>
-          <span class="meta-val">Nigeria</span>
-        </div>
-        <div class="meta-row">
-          <span class="meta-key">Institution</span>
-          <span class="meta-val">FUT Minna</span>
-        </div>
-        <div class="meta-row">
-          <span class="meta-key">Discipline</span>
-          <span class="meta-val">ABE</span>
-        </div>
-        <div class="meta-row">
-          <span class="meta-key">Book</span>
-          <span class="meta-val">Al-ʿIlm</span>
-        </div>
-        <div class="meta-row">
-          <span class="meta-key">GitHub</span>
-          <span class="meta-val">783farouq</span>
-        </div>
-        <div class="meta-row">
-          <span class="meta-key">Status</span>
-          <span class="meta-val">Exploring, building.</span>
-        </div>
-      </div>
-      <div class="about-text reveal reveal-d2">
-        <p class="about-p">
-          I'm an <strong>Agricultural & Bioresources Engineering</strong> student at the Federal University of Technology, Minna — but engineering is only one layer of the story.
-        </p>
-        <p class="about-p">
-          The rest lives in <em>Web3 infrastructure</em>, agentic AI, the deep psychology of how humans discover meaning, and a published book on the etiquettes of seeking knowledge rooted in Islamic tradition.
-        </p>
-        <p class="about-p">
-          I don't just consume ideas. I <strong>trace them to their roots, turn them over, and build something from what I find.</strong>
-        </p>
-        <div class="id-pills">
-          <span class="id-pill active">Web3</span>
-          <span class="id-pill active">AI × Automation</span>
-          <span class="id-pill">Author</span>
-          <span class="id-pill">ABE Engineer</span>
-          <span class="id-pill">Knowledge Seeker</span>
-          <span class="id-pill">Discoverer</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<hr class="hr">
-
-<!-- PROJECTS -->
-<section class="section" id="projects">
-  <div class="section-inner">
-    <div class="sec-label reveal">Selected Works</div>
-    <h2 class="sec-title reveal reveal-d1">Things I've <em>made.</em></h2>
-    <div class="projects-list">
-
-      <!-- BOOK -->
-      <div class="proj-item reveal reveal-d1">
-        <div class="proj-num">01</div>
-        <div class="proj-body">
-          <div class="proj-type">Published Book · Islamic Scholarship</div>
-          <h3 class="proj-title">Al-ʿIlm — <em>العِلم</em></h3>
-          <p class="proj-desc">
-            A book rooted in Islamic tradition on the sacred art of seeking knowledge — <em>ṭalab al-ʿilm</em>. Drawing from classical scholars and the Sunnah, it guides the sincere seeker on how to orient heart, mind, and conduct in the pursuit of beneficial knowledge.
-          </p>
-          <div class="proj-chapters">
-            <div class="proj-ch"><span class="proj-ch-n">I</span> The Virtue &amp; Obligation of Knowledge in Islam</div>
-            <div class="proj-ch"><span class="proj-ch-n">II</span> Purifying the Intention — Niyyah</div>
-            <div class="proj-ch"><span class="proj-ch-n">III</span> Etiquettes of the Student of Knowledge</div>
-            <div class="proj-ch"><span class="proj-ch-n">IV</span> Methods &amp; Disciplines of Seeking ʿIlm</div>
-            <div class="proj-ch"><span class="proj-ch-n">V</span> Preserving, Acting on &amp; Spreading Knowledge</div>
+        <!-- ArcPay -->
+        <article class="work">
+          <div class="work-head">
+            <h3>ArcPay</h3>
+            <span class="when live">Live on Arc Testnet</span>
           </div>
-          <div class="proj-tags">
-            <span class="ptag">Islamic Scholarship</span>
-            <span class="ptag">Epistemology</span>
-            <span class="ptag">Classical Tradition</span>
-            <span class="ptag">Character</span>
-          </div>
-        </div>
-        <div class="proj-aside">
-          <span class="proj-year">2025</span>
-          <a href="#footer-social" class="proj-link">Request Copy →</a>
-        </div>
-      </div>
+          <p class="what">An invoicing and payment dApp where a freelancer creates an invoice, sends a payment link, and gets paid in USDC. Every invoice is recorded on-chain, with no bank in the middle.</p>
 
-      <!-- UNION -->
-      <div class="proj-item reveal reveal-d2">
-        <div class="proj-num">02</div>
-        <div class="proj-body">
-          <div class="proj-type">Web3 · Open Source</div>
-          <div class="union-live"><span class="ulive-dot"></span>Following on GitHub</div>
-          <h3 class="proj-title">Union <em>Protocol</em></h3>
-          <p class="proj-desc">
-            Tracking Union Labs — a zero-knowledge cross-chain bridging infrastructure layer for general message passing, asset transfers, and DeFi. No trusted third parties. No oracles. Pure cryptographic trust across Cosmos IBC and EVM chains.
-          </p>
-          <div class="proj-tags">
-            <span class="ptag">Web3</span>
-            <span class="ptag">IBC / Cosmos</span>
-            <span class="ptag">Cross-Chain</span>
-            <span class="ptag">Blockchain</span>
-            <span class="ptag">EVM</span>
-          </div>
-        </div>
-        <div class="proj-aside">
-          <span class="proj-year">Ongoing</span>
-          <a href="https://github.com/unionlabs/union" target="_blank" class="proj-link">View Repo →</a>
-          <a href="https://github.com/783farouq" target="_blank" class="proj-link">My GitHub →</a>
-        </div>
-      </div>
-
-      <!-- ABE Research -->
-      <div class="proj-item reveal reveal-d3">
-        <div class="proj-num">03</div>
-        <div class="proj-body">
-          <div class="proj-type">Academic · Engineering</div>
-          <h3 class="proj-title">ABE Technical <em>Research</em></h3>
-          <p class="proj-desc">
-            Engineering work spanning tractor transmission systems, irrigation mechanics, agricultural machinery, and control room documentation — written with the same precision applied to everything else.
-          </p>
-          <div class="proj-tags">
-            <span class="ptag">ABE</span>
-            <span class="ptag">Tractor Systems</span>
-            <span class="ptag">Irrigation</span>
-            <span class="ptag">Control Room</span>
-            <span class="ptag">FUT Minna</span>
-          </div>
-        </div>
-        <div class="proj-aside">
-          <span class="proj-year">2024–2026</span>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- MANIFESTO QUOTE -->
-<div class="manifesto">
-  <div class="manifesto-bg">
-    <div class="manifesto-bg-word">Explore</div>
-  </div>
-  <div class="manifesto-inner reveal">
-    <p class="manifesto-q1">
-      "The worst form of blindness is <span>looking at life<br>from your perspective alone."</span>
-    </p>
-    <div class="manifesto-rule">
-      <span class="mfst-line"></span>
-      <span class="mfst-glyph">✦ ✦ ✦</span>
-      <span class="mfst-line"></span>
-    </div>
-    <p class="manifesto-q2">
-      Explore. Read.<br><em>Put yourself in people's shoes.</em>
-    </p>
-    <div class="manifesto-attr">— Umar Farouq Abdulazeez · Explorer at the Edge</div>
-  </div>
-</div>
-
-<!-- CURIOSITY / INSPIRATION -->
-<section class="section" id="curiosity">
-  <div class="section-inner">
-    <div class="sec-label reveal">The Inner World</div>
-    <h2 class="sec-title reveal reveal-d1">What moves<br>the <em>mind.</em></h2>
-    <div class="curiosity-grid">
-      <div class="reveal reveal-d1">
-        <div class="inspo-label">What led me to write Al-ʿIlm</div>
-        <div class="inspo-items">
-          <div class="inspo-item">
-            <div class="inspo-n">1.</div>
-            <div class="inspo-text">My <strong>students</strong>, whose relentless curiosity reminded me that the pursuit of knowledge is never truly finished — and that someone needed to map the path.</div>
-          </div>
-          <div class="inspo-item">
-            <div class="inspo-n">2.</div>
-            <div class="inspo-text">The <strong>youth today</strong> — brilliant and connected, yet unaware of the sacred etiquettes of seeking knowledge and blind to its true weight and importance.</div>
-          </div>
-          <div class="inspo-item">
-            <div class="inspo-n">3.</div>
-            <div class="inspo-text">The <strong>ignorance</strong> I saw around me — not a lack of intelligence, but a lack of direction. People drowning in information while starving for wisdom.</div>
-          </div>
-        </div>
-      </div>
-      <div class="reveal reveal-d2">
-        <div class="reads-title">Currently reading</div>
-        <div class="read-items">
-          <div class="read-item">
-            <span class="read-icon">🤖</span>
+          <div class="grid">
             <div>
-              <div class="read-title">AI's Impact on Software Engineers in 2026</div>
-              <div class="read-source">The Pragmatic Engineer · Substack</div>
+              <ul class="facts-list">
+                <li><span>Does</span><span>Create invoices, track them, keep a client directory, share payment links, view analytics</span></li>
+                <li><span>Built with</span><span>Solidity in Remix, vanilla JavaScript, ethers.js, hosted on Vercel</span></li>
+                <li><span>Network</span><span>Arc Testnet, chain ID <code>5042002</code></span></li>
+                <li><span>Contract</span><span><code>0xA6eD…1dDA</code> <button class="copy" type="button" data-copy="0xA6eD8d8068553d8e4C17F67CE6B183c950EC1dDA" aria-label="Copy the full contract address">Copy</button></span></li>
+              </ul>
+              <div class="links">
+                <a class="tlink" href="https://arcpayy.vercel.app/" target="_blank" rel="noopener">Open ArcPay</a>
+                <a class="tlink" href="https://github.com/783farouq" target="_blank" rel="noopener">My GitHub</a>
+              </div>
             </div>
-          </div>
-          <div class="read-item">
-            <span class="read-icon">🏗️</span>
             <div>
-              <div class="read-title">40+ System Design Questions by Difficulty</div>
-              <div class="read-source">Design Gurus · Substack</div>
+              <div class="panel" aria-hidden="true">
+                <div class="panel-top"><b>New invoice</b><span class="net">Arc Testnet</span></div>
+                <div class="amount">250.00<span>USDC</span></div>
+                <dl class="rows">
+                  <div><dt>For</dt><dd>Logo design, two revisions</dd></div>
+                  <div><dt>Due</dt><dd>30 Nov 2026</dd></div>
+                  <div><dt>Status</dt><dd class="status">Awaiting payment</dd></div>
+                </dl>
+                <div class="fake-btn">Pay invoice</div>
+              </div>
+              <p class="caption">Interface preview with sample data. Open the live app to see the real screens.</p>
             </div>
           </div>
-          <div class="read-item">
-            <span class="read-icon">💡</span>
+        </article>
+
+        <!-- Al-ʿIlm -->
+        <article class="work">
+          <div class="work-head">
+            <h3>Al-ʿIlm</h3>
+            <span class="when">Book, 2025</span>
+          </div>
+          <p class="what">A scholarly work on the etiquettes, methods and ways of seeking knowledge. It draws on the Sunnah and classical sources, including al-Zarnuji's <em>Taʿlīm al-Mutaʿallim</em>, and carries Arabic poems with English translations.</p>
+
+          <div class="grid">
+            <div class="cover" role="img" aria-label="Cover design of Al-ʿIlm, the Arabic word for knowledge in gold on midnight blue">
+              <div class="cover-in">
+                <span class="ar" lang="ar" dir="rtl">العِلم</span>
+                <span class="lat">Al-ʿIlm</span>
+                <span class="sub">Knowledge, and the etiquettes of seeking it</span>
+              </div>
+            </div>
             <div>
-              <div class="read-title">You Can't Beat AI — But Here's What You Can Do</div>
-              <div class="read-source">Ruben's Substack</div>
+              <p class="chapters-title">Chapters include</p>
+              <ol class="chapters">
+                <li>The Virtue and Obligation of Knowledge in Islam</li>
+                <li>Purifying the Intention (Niyyah)</li>
+                <li>Etiquettes of the Student of Knowledge</li>
+                <li>Methods and Disciplines of Seeking ʿIlm</li>
+                <li>Preserving, Acting on and Spreading Knowledge</li>
+              </ol>
+              <div class="links">
+                <a class="tlink" href="https://t.me/Sizukiabimaru" target="_blank" rel="noopener">Ask for a copy on Telegram</a>
+              </div>
             </div>
+          </div>
+        </article>
+
+        <!-- n8n -->
+        <article class="work">
+          <div class="work-head">
+            <h3>Market brief bot</h3>
+            <span class="when">AI automation, 2025 to now</span>
+          </div>
+          <p class="what">An n8n workflow that pulls crypto market data, has Gemini write a short summary of it, and sends the result to a Telegram chat. It runs without me touching it.</p>
+          <div class="flow" role="img" aria-label="Workflow: CoinGecko market data, then Gemini summary, then Telegram bot message">
+            <div class="node"><b>CoinGecko</b><span>Fetches market data through its API</span></div>
+            <div class="join" aria-hidden="true"><svg viewBox="0 0 28 14"><path d="M0 7h26M20 1l6 6-6 6"/></svg></div>
+            <div class="node"><b>Gemini</b><span>Turns the raw numbers into a short summary</span></div>
+            <div class="join" aria-hidden="true"><svg viewBox="0 0 28 14"><path d="M0 7h26M20 1l6 6-6 6"/></svg></div>
+            <div class="node"><b>Telegram bot</b><span>Delivers the brief to a chat</span></div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ENGINEERING -->
+  <section class="spread" id="engineering">
+    <div class="wrap">
+      <h2>Engineering<small>Where the degree meets a working plant.</small></h2>
+      <div>
+        <p class="eng-lede">Five months of industrial training in the plant room of a hospitality facility.</p>
+        <p class="eng-meta">SIWES industrial trainee, June to October 2026.</p>
+
+        <div class="train">
+          <p class="train-title">The boiler water treatment train I monitored, in order</p>
+          <ol>
+            <li>Softening<small>Hardness removal</small></li>
+            <li>Deaeration<small>Dissolved oxygen out</small></li>
+            <li>Boiler<small>Chemical dosing</small></li>
+            <li>Steam distribution<small>Condensate return</small></li>
+          </ol>
+        </div>
+
+        <ul class="duties">
+          <li><b>Pool water chemistry</b><span>DPD testing, free and combined chlorine, pH, cyanuric acid, alum dosing, sand filter backwashing and multiport valve operation.</span></li>
+          <li><b>Boiler water</b><span>Monitoring across the full train with oxygen scavenger, alkalinity and condensate chemicals.</span></li>
+          <li><b>Cooling towers</b><span>Biocide and scale programme, blowdown, and Legionella risk control.</span></li>
+          <li><b>Fire suppression</b><span>Studied Kidde FM-200 clean agent, wet chemical kitchen systems, and jockey, diesel and electric fire pumps to NFPA 20.</span></li>
+          <li><b>Dosing and records</b><span>ProMinent dosing pump volume calculations and a daily technical logbook.</span></li>
+        </ul>
+
+        <p class="abe"><b>In the lecture hall:</b> tractor transmission systems, irrigation mechanics and agricultural machinery, plus a background of three years in electrical engineering.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="spread about" id="about">
+    <div class="wrap">
+      <h2>About</h2>
+      <div>
+        <p>I'm an <strong>Agricultural and Bioresources Engineering</strong> student at the Federal University of Technology, Minna. Engineering is one layer of the story.</p>
+        <p>The rest is <strong>Web3 infrastructure</strong>, AI agents and tools that I use daily for research, writing, coding and automation, and a book on the etiquettes of seeking knowledge, rooted in Islamic tradition.</p>
+        <p>I don't just consume ideas. I <strong>trace them to their roots, turn them over, and build something from what I find.</strong></p>
+
+        <blockquote class="quote">“The worst form of blindness is looking at life from your perspective alone.”</blockquote>
+        <p class="quote-by">Umar Farouq Abdulazeez</p>
+
+        <div class="why">
+          <h3>What led me to write Al-ʿIlm</h3>
+          <ol>
+            <li><b>My students.</b> Their curiosity reminded me that the pursuit of knowledge is never finished, and that someone needed to map the path.</li>
+            <li><b>The youth today.</b> Brilliant and connected, yet often unaware of the etiquettes of seeking knowledge and its true weight.</li>
+            <li><b>The ignorance I saw around me.</b> Not a lack of intelligence but a lack of direction: people drowning in information while starving for wisdom.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TOOLKIT -->
+  <section class="spread" id="toolkit">
+    <div class="wrap">
+      <h2>Toolkit<small>And what I've studied.</small></h2>
+      <div>
+        <dl class="kit">
+          <div><dt>Web3</dt><dd>Solidity, Remix IDE, ethers.js, Arc Network, USDC payments</dd></div>
+          <div><dt>Web</dt><dd>HTML, CSS, JavaScript, deployment on Vercel</dd></div>
+          <div><dt>Automation and AI</dt><dd>n8n, Gemini prompting, Telegram bots, API workflows, daily work with Claude and ChatGPT</dd></div>
+          <div><dt>Engineering</dt><dd>Water treatment chemistry, boiler systems, fire suppression, HVAC and cooling towers</dd></div>
+          <div><dt>Professional</dt><dd>Advanced Microsoft Excel, technical writing, documentation, research, Stripe payments</dd></div>
+          <div><dt>Languages</dt><dd>English, Arabic</dd></div>
+        </dl>
+
+        <div class="creds" style="margin-top:56px">
+          <div class="cred">
+            <div>
+              <h3>Office Skills Starter: Email, Calendar and Excel</h3>
+              <p>Certificate of completion, Ucademy Online Campus. Free short course of about 75 minutes.</p>
+            </div>
+            <div class="meta">
+              <div><span>Issued</span><span>22 Nov 2026</span></div>
+              <div><span>Certificate ID</span><span class="data">UC-7TQP-Q0C4</span></div>
+              <div><span></span><a class="tlink" href="https://edu.ucademy.ca/verify/UC-7TQP-Q0C4/" target="_blank" rel="noopener">Verify certificate</a></div>
+            </div>
+          </div>
+          <div class="cred">
+            <div>
+              <h3>AI prompting</h3>
+              <p>Structured study through Google Prompting Essentials and DeepLearning.AI.</p>
+            </div>
+            <div class="meta"></div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- DOMAINS -->
-<section class="section" id="domains">
-  <div class="section-inner">
-    <div class="sec-label reveal">Core Domains</div>
-    <h2 class="sec-title reveal reveal-d1">Four universes.<br><em>One mind.</em></h2>
-    <div class="domains-grid">
-      <div class="domain-card reveal">
-        <div class="domain-num">01</div>
-        <div class="domain-title">Web3 & Blockchain</div>
-        <div class="domain-sub">Cross-chain infrastructure &amp; decentralized systems</div>
-        <p class="domain-body">Tracking Union Labs push cross-chain IBC boundaries on GitHub. Watching blockchain infrastructure evolve across Cosmos and EVM ecosystems. Web3 isn't a trend — it's a new operating system for trust.</p>
-        <div class="domain-tags">
-          <span class="dtag">Web3</span><span class="dtag">IBC</span><span class="dtag">Cosmos</span><span class="dtag">Union Labs</span><span class="dtag">EVM</span>
-        </div>
-      </div>
-      <div class="domain-card reveal reveal-d1">
-        <div class="domain-num">02</div>
-        <div class="domain-title">AI × Automation</div>
-        <div class="domain-sub">Agentic systems, prompting &amp; workflow intelligence</div>
-        <p class="domain-body">Mastering multimodal prompting via DeepLearning.AI and Google Prompting Essentials. Building with Claude and Gemini. Watching the agentic paradigm reshape how the world operates.</p>
-        <div class="domain-tags">
-          <span class="dtag">Gemini</span><span class="dtag">Claude</span><span class="dtag">Agentic AI</span><span class="dtag">Multimodal</span><span class="dtag">Prompting</span>
-        </div>
-      </div>
-      <div class="domain-card reveal reveal-d2">
-        <div class="domain-num">03</div>
-        <div class="domain-title">Knowledge & Character</div>
-        <div class="domain-sub">Islamic scholarship, psychology &amp; how humans grow</div>
-        <p class="domain-body">Author of Al-ʿIlm. Fascinated by how people seek, preserve, and act on knowledge. From Islamic epistemology to behavioral science — the inner world is as complex as any system.</p>
-        <div class="domain-tags">
-          <span class="dtag">Epistemology</span><span class="dtag">Islamic Scholarship</span><span class="dtag">Philosophy</span><span class="dtag">Character</span>
-        </div>
-      </div>
-      <div class="domain-card reveal reveal-d3">
-        <div class="domain-num">04</div>
-        <div class="domain-title">General Discovery</div>
-        <div class="domain-sub">ABE engineering, system design &amp; cross-discipline thinking</div>
-        <p class="domain-body">ABE practicals on tractor transmissions and irrigation systems. System design deep-dives. The intersection of bio-resources and digital infrastructure. Curiosity is non-negotiable.</p>
-        <div class="domain-tags">
-          <span class="dtag">ABE</span><span class="dtag">System Design</span><span class="dtag">Biotech</span><span class="dtag">Research</span>
+  <!-- CONTACT -->
+  <section class="spread" id="contact">
+    <div class="wrap">
+      <h2>Contact</h2>
+      <div>
+        <a class="contact-big" href="https://t.me/Sizukiabimaru" target="_blank" rel="noopener">@Sizukiabimaru</a>
+        <p class="contact-note">Telegram is the fastest way to reach me. Send a message about a build, an automation, the book, or an engineering role.</p>
+        <div class="reach">
+          <a href="mailto:umarfarouq695@gmail.com"><span>Email</span><span>umarfarouq695@gmail.com</span></a>
+          <a href="https://wa.me/2349015906731" target="_blank" rel="noopener"><span>WhatsApp</span><span>Send a message</span></a>
+          <a href="https://github.com/783farouq" target="_blank" rel="noopener"><span>GitHub</span><span>783farouq</span></a>
+          <a href="https://x.com/alfaaro_uq" target="_blank" rel="noopener"><span>X</span><span>@alfaaro_uq</span></a>
+          <a href="https://www.instagram.com/umaralfaarouk" target="_blank" rel="noopener"><span>Instagram</span><span>@umaralfaarouk</span></a>
+          <a href="https://medium.com/@umarfarouq695" target="_blank" rel="noopener"><span>Medium</span><span>@umarfarouq695</span></a>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- LEARNING -->
-<section class="section" id="learning">
-  <div class="section-inner">
-    <div class="sec-label reveal">In Progress</div>
-    <h2 class="sec-title reveal reveal-d1">Building inside<br><em>my head.</em></h2>
-    <div class="learning-grid">
-      <div class="learn-card c-active reveal">
-        <div class="learn-status"><span class="ls-dot"></span>Active Now</div>
-        <div class="learn-title">Multimodal AI Prompting</div>
-        <div class="learn-src">DeepLearning.AI</div>
-        <p class="learn-body">Mastering text, image, and audio inputs. Engineering prompts that unlock the full capability surface of modern foundation models.</p>
-      </div>
-      <div class="learn-card c-next reveal reveal-d1">
-        <div class="learn-status"><span class="ls-dot"></span>Up Next</div>
-        <div class="learn-title">Google Prompting Essentials</div>
-        <div class="learn-src">Coursera × Google</div>
-        <p class="learn-body">Structured Gemini methodology, workflow automation, and real-world task integration across Google's AI ecosystem.</p>
-      </div>
-      <div class="learn-card c-explore reveal reveal-d2">
-        <div class="learn-status"><span class="ls-dot"></span>Exploring</div>
-        <div class="learn-title">Agentic AI Systems</div>
-        <div class="learn-src">Great Learning & Substack</div>
-        <p class="learn-body">How AI moves from reactive chatbots to proactive agents that pursue multi-step goals and reshape how enterprises operate.</p>
-      </div>
-    </div>
-  </div>
-</section>
+</main>
 
-<!-- CERTIFICATES -->
-<section class="section" id="certificates">
-  <div class="section-inner">
-    <div class="sec-label reveal">Credentials</div>
-    <h2 class="sec-title reveal reveal-d1">Learning,<br><em>on record.</em></h2>
-    <div class="cert-list">
-      <div class="cert-row reveal">
-        <div class="cert-main">
-          <div class="cert-kind">Certificate of Completion</div>
-          <div class="cert-title">Office Skills Starter: Email, Calendar and Excel</div>
-          <div class="cert-issuer">Ucademy Online Campus · Free short course</div>
-        </div>
-        <div class="cert-meta">
-          <div class="cert-meta-item"><span class="cert-meta-label">Issued</span><span class="cert-meta-value">November 22, 2026</span></div>
-          <div class="cert-meta-item"><span class="cert-meta-label">Length</span><span class="cert-meta-value">About 75 minutes</span></div>
-          <div class="cert-meta-item"><span class="cert-meta-label">Certificate ID</span><span class="cert-meta-value is-id">UC-7TQP-Q0C4</span></div>
-          <a class="cert-verify" href="https://edu.ucademy.ca/verify/UC-7TQP-Q0C4/" target="_blank" rel="noopener">Verify certificate ↗</a>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ECOSYSTEM -->
-<section class="section" id="ecosystem">
-  <div class="section-inner">
-    <div class="sec-label reveal">Digital Ecosystem</div>
-    <h2 class="sec-title reveal reveal-d1">The platforms<br><em>that orbit me.</em></h2>
-    <div class="eco-grid reveal reveal-d1">
-      <div class="eco-col">
-        <div class="eco-cat">Development & Web3</div>
-        <div class="eco-items">
-          <div class="eco-item"><span class="eco-name">GitHub</span><span class="eco-handle">783farouq</span></div>
-          <div class="eco-item"><span class="eco-name">Vercel</span><span class="eco-handle">Deploy</span></div>
-          <div class="eco-item"><span class="eco-name">Union Labs</span><span class="eco-handle">IBC / ZK</span></div>
-          <div class="eco-item"><span class="eco-name">Airtable</span><span class="eco-handle">Data Ops</span></div>
-        </div>
-      </div>
-      <div class="eco-col">
-        <div class="eco-cat">AI & Learning</div>
-        <div class="eco-items">
-          <div class="eco-item"><span class="eco-name">Claude</span><span class="eco-handle">LLM / Build</span></div>
-          <div class="eco-item"><span class="eco-name">Gemini</span><span class="eco-handle">AI / LLM</span></div>
-          <div class="eco-item"><span class="eco-name">DeepLearning.AI</span><span class="eco-handle">Active</span></div>
-          <div class="eco-item"><span class="eco-name">Coursera</span><span class="eco-handle">Google AI</span></div>
-          <div class="eco-item"><span class="eco-name">Udemy</span><span class="eco-handle">Skills</span></div>
-        </div>
-      </div>
-      <div class="eco-col">
-        <div class="eco-cat">Payments & Ops</div>
-        <div class="eco-items">
-          <div class="eco-item"><span class="eco-name">Stripe</span><span class="eco-handle">Payments</span></div>
-          <div class="eco-item"><span class="eco-name">Slack</span><span class="eco-handle">Comms</span></div>
-          <div class="eco-item"><span class="eco-name">Notion</span><span class="eco-handle">Knowledge</span></div>
-          <div class="eco-item"><span class="eco-name">Calendly</span><span class="eco-handle">Scheduling</span></div>
-        </div>
-      </div>
-      <div class="eco-col">
-        <div class="eco-cat">Reading & Writing</div>
-        <div class="eco-items">
-          <div class="eco-item"><span class="eco-name">Medium</span><span class="eco-handle">@umarfarouq695</span></div>
-          <div class="eco-item"><span class="eco-name">Substack</span><span class="eco-handle">Newsletters</span></div>
-          <div class="eco-item"><span class="eco-name">TradingView</span><span class="eco-handle">Charts</span></div>
-        </div>
-      </div>
-      <div class="eco-col">
-        <div class="eco-cat">Network</div>
-        <div class="eco-items">
-          <div class="eco-item"><span class="eco-name">LinkedIn</span><span class="eco-handle">Professional</span></div>
-          <div class="eco-item"><span class="eco-name">X / Twitter</span><span class="eco-handle">@alfaaro_uq</span></div>
-          <div class="eco-item"><span class="eco-name">Instagram</span><span class="eco-handle">@umaralfaarouk</span></div>
-        </div>
-      </div>
-      <div class="eco-col">
-        <div class="eco-cat">Academia</div>
-        <div class="eco-items">
-          <div class="eco-item"><span class="eco-name">FUT Minna</span><span class="eco-handle">ABE</span></div>
-          <div class="eco-item"><span class="eco-name">Pinterest</span><span class="eco-handle">Visual Inspo</span></div>
-          <div class="eco-item"><span class="eco-name">Great Learning</span><span class="eco-handle">Agents</span></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- CONTACT -->
-<section class="section" id="contact">
-  <div class="section-inner">
-    <div class="sec-label reveal">Get In Touch</div>
-    <h2 class="sec-title reveal reveal-d1"><em>Let's</em> talk.</h2>
-    <div class="contact-grid">
-      <div class="reveal reveal-d1">
-        <p class="contact-text">
-          Whether it's a <strong>Web3 rabbit hole</strong>, an <strong>AI workflow</strong>, a question about the book — or just a good conversation with someone who refuses to stay in one lane.
-        </p>
-        <div class="contact-links">
-          <a href="mailto:umarfarouq695@gmail.com" class="contact-link">
-            <div class="cl-left">
-              <span class="cl-platform">Email</span>
-              <span class="cl-name">umarfarouq695@gmail.com</span>
-            </div>
-            <span class="cl-arrow">→</span>
-          </a>
-          <a href="https://github.com/783farouq" target="_blank" class="contact-link">
-            <div class="cl-left">
-              <span class="cl-platform">GitHub</span>
-              <span class="cl-name">783farouq</span>
-            </div>
-            <span class="cl-arrow">→</span>
-          </a>
-          <a href="https://x.com/alfaaro_uq" target="_blank" class="contact-link">
-            <div class="cl-left">
-              <span class="cl-platform">X / Twitter</span>
-              <span class="cl-name">@alfaaro_uq</span>
-            </div>
-            <span class="cl-arrow">→</span>
-          </a>
-          <a href="https://www.instagram.com/umaralfaarouk" target="_blank" class="contact-link">
-            <div class="cl-left">
-              <span class="cl-platform">Instagram</span>
-              <span class="cl-name">@umaralfaarouk</span>
-            </div>
-            <span class="cl-arrow">→</span>
-          </a>
-          <a href="https://wa.me/2349015906731" target="_blank" class="contact-link">
-            <div class="cl-left">
-              <span class="cl-platform">WhatsApp</span>
-              <span class="cl-name">+234 901 590 6731</span>
-            </div>
-            <span class="cl-arrow">→</span>
-          </a>
-        </div>
-      </div>
-      <div class="contact-stats reveal reveal-d2">
-        <div class="c-stat">
-          <div class="c-stat-n">1</div>
-          <div class="c-stat-l"><strong>Published Book</strong>Al-ʿIlm — Knowledge &amp; its etiquettes</div>
-        </div>
-        <div class="c-stat">
-          <div class="c-stat-n">3</div>
-          <div class="c-stat-l"><strong>AI Courses Active</strong>Multimodal, Agentic &amp; Gemini</div>
-        </div>
-        <div class="c-stat">
-          <div class="c-stat-n">∞</div>
-          <div class="c-stat-l"><strong>Curiosity Threshold</strong>ABE · FUT Minna · Explorer at the Edge</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- FOOTER -->
 <footer>
-  <div class="footer-social-section" id="footer-social">
-    <div class="footer-social-label">Find me across the web</div>
-    <div class="social-row">
-      <a href="https://x.com/alfaaro_uq" target="_blank" class="social-card">
-        <span class="sc-icon">𝕏</span>
-        <span class="sc-platform">Twitter / X</span>
-        <span class="sc-name">@alfaaro_uq</span>
-      </a>
-      <a href="https://www.instagram.com/umaralfaarouk?igsh=bHJia2ZjYWFyb2pq" target="_blank" class="social-card">
-        <span class="sc-icon">📸</span>
-        <span class="sc-platform">Instagram</span>
-        <span class="sc-name">@umaralfaarouk</span>
-      </a>
-      <a href="https://wa.me/2349015906731" target="_blank" class="social-card">
-        <span class="sc-icon">💬</span>
-        <span class="sc-platform">WhatsApp</span>
-        <span class="sc-name">+234 901 590 6731</span>
-      </a>
-      <a href="https://github.com/783farouq" target="_blank" class="social-card">
-        <span class="sc-icon">🐙</span>
-        <span class="sc-platform">GitHub</span>
-        <span class="sc-name">783farouq</span>
-      </a>
-      <a href="mailto:umarfarouq695@gmail.com" class="social-card">
-        <span class="sc-icon">✉️</span>
-        <span class="sc-platform">Email</span>
-        <span class="sc-name">umarfarouq695@gmail.com</span>
-      </a>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <span class="footer-copy">© 2026 Umar Farouq Abdulazeez · ABE · FUT Minna · Nigeria</span>
-    <span class="footer-mark">Explorer at the Edge · 783farouq</span>
+  <div class="wrap">
+    <span>© <span id="yr">2026</span> Umar Farouq Abdulazeez</span>
+    <span>ABE student, FUT Minna, Nigeria</span>
   </div>
 </footer>
 
 <script>
-// ── CURSOR ──
-const cur = document.getElementById('cur');
-const ring = document.getElementById('curRing');
-let mx=0,my=0,rx=0,ry=0;
-document.addEventListener('mousemove',e=>{
-  mx=e.clientX; my=e.clientY;
-  cur.style.left=mx+'px'; cur.style.top=my+'px';
-});
-function animRing(){
-  rx+=(mx-rx)*.12; ry+=(my-ry)*.12;
-  ring.style.left=rx+'px'; ring.style.top=ry+'px';
-  requestAnimationFrame(animRing);
-}
-animRing();
-document.querySelectorAll('a,button').forEach(el=>{
-  el.addEventListener('mouseenter',()=>{
-    cur.style.transform='translate(-50%,-50%) scale(3)';
-    cur.style.background='var(--gold)';
-    ring.style.opacity='0';
-  });
-  el.addEventListener('mouseleave',()=>{
-    cur.style.transform='translate(-50%,-50%) scale(1)';
-    cur.style.background='var(--ink)';
-    ring.style.opacity='.35';
-  });
-});
+(function () {
+  var bar = document.getElementById('bar');
+  function onScroll() { bar.classList.toggle('scrolled', window.scrollY > 8); }
+  window.addEventListener('scroll', onScroll, { passive: true }); onScroll();
 
-// ── SCROLL REVEAL ──
-const obs = new IntersectionObserver(entries=>{
-  entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('in'); });
-},{threshold:.08, rootMargin:'0px 0px -20px 0px'});
-document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+  var yr = document.getElementById('yr'); if (yr) yr.textContent = new Date().getFullYear();
 
-// ── HERO PARALLAX ──
-const bgNum = document.querySelector('.hero-bg-num');
-window.addEventListener('scroll',()=>{
-  const s = window.scrollY;
-  bgNum.style.transform=`translateY(calc(-55% + ${s*.15}px))`;
-},{ passive:true });
+  // Highlight the nav link for the section in view
+  var links = {}; document.querySelectorAll('.nav a[href^="#"]').forEach(function (a) { links[a.getAttribute('href').slice(1)] = a; });
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        var a = links[e.target.id]; if (!a || a.classList.contains('pill')) return;
+        if (e.isIntersecting) { Object.keys(links).forEach(function (k) { links[k].classList.remove('on'); }); a.classList.add('on'); }
+      });
+    }, { rootMargin: '-45% 0px -50% 0px' });
+    Object.keys(links).forEach(function (id) { var s = document.getElementById(id); if (s) io.observe(s); });
+  }
+
+  // Copy the contract address
+  document.querySelectorAll('[data-copy]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var text = btn.getAttribute('data-copy'), done = function () { btn.textContent = 'Copied'; setTimeout(function () { btn.textContent = 'Copy'; }, 1600); };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done, function () { btn.textContent = 'Copy failed'; setTimeout(function () { btn.textContent = 'Copy'; }, 1600); });
+      } else { btn.textContent = 'Copy failed'; setTimeout(function () { btn.textContent = 'Copy'; }, 1600); }
+    });
+  });
+})();
 </script>
 </body>
 </html>
